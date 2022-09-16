@@ -5,8 +5,8 @@ import SignupImage from '../assets/signupImage.png'
 
 const Signup = () => {
   return (
-    <Flex height="100vh" alignItems="center" justifyContent="center" background="#DADFE2">
-      <Flex height="39.6vw"  display="flex" direction="row" background="#C2D3DD" borderRadius="10px">
+    <Flex height="100vh" alignItems="center" justifyContent="center" background="#BFCAD4">
+      <Flex height="39.6vw"  display="flex" direction="row" background="#ACBCCB" borderRadius="10px">
 
         <Flex alignItems="left" justifyContent="left">
           <Image src={SignupImage} alt="Login Image" height="39.6vw"/>
