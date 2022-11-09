@@ -55,13 +55,13 @@ const Setup = () => {
 
     return (
         <Flex height="100vh" display="flex" alignItems="center" justifyContent="center" background="#BFCAD4">
-            <Flex height="80vh" display="flex" direction="row" background="#ACBCCB" borderRadius="10px" >
-                {/* <Flex height="30%" width="30%" mt="18%" ml="5%" display="flex" direction="column" justifyContent="center" alignItems="center">
-                    <Text textAlign="center" fontSize="2vw" fontFamily="Poppins" fontWeight="bold">Set Up</Text>
-                    <Text textAlign="center" fontSize="1.2vw" fontFamily="Poppins">Capture your face and upload
+            <Flex height="80vh" display="flex" direction="row" background="#ACBCCB" borderRadius="10px">
+                <Flex height="10vh" mt="35vh" pl="4vw" pr="10vw" display="flex" direction="column" justifyContent="center" alignItems="center">
+                    <Text textAlign="center" fontSize="2vw" fontFamily="Poppins">Set Up</Text>
+                    <Text textAlign="center" fontSize=".8vw" width="16vw" mt=".5vh" fontFamily="Poppins" color="#5E5E5E">Capture your face and upload
                      it to our database for efficient authentication</Text>
-                </Flex> */}
-            <Flex height="80vh" width="80vw" display="flex" justifyContent="center" direction="column" alignItems="center">
+                </Flex>
+            <Flex height="80vh" display="flex" justifyContent="center" direction="column" alignItems="center">
                 <Image src={SetupBackground} position="absolute" height="80vh" zIndex="0"/>
                 <Flex height="55vh" borderRadius="5" overflow="hidden" zIndex="2" >
                     <video ref={cameraRef}></video>
@@ -96,8 +96,16 @@ const Setup = () => {
                  )}
                  </Popover>
                 </Flex>
-                <Flex>
-
+                <Flex height="10vh" mt="35vh" pr="4vw" pl="10vw" display="flex" direction="column" justifyContent="center" alignItems="center">
+                    <Text textAlign="center" fontSize="2vw" fontFamily="Poppins">Instructions</Text>
+                    <Text textAlign="center" fontSize=".8vw" width="17vw" mt=".8vh" fontFamily="Poppins" color="#5E5E5E">Align your face with the dotted template</Text>
+                    <Text textAlign="center" fontSize=".8vw" width="17vw" mt=".8vh" fontFamily="Poppins" color="#5E5E5E">Make sure to remove any face coverings e.g
+                     sunglasses, mask, headband</Text>
+                    <Text textAlign="center" fontSize=".8vw" width="17vw" mt=".8vh" fontFamily="Poppins" color="#5E5E5E">Once ready, click the <b>“Capture”</b> button to take the image</Text>
+                    <Text textAlign="center" fontSize=".8vw" width="17vw" mt=".8vh" fontFamily="Poppins" color="#5E5E5E">Capture your face and upload
+                     it to our database for efficient authentication</Text>
+                    <Text textAlign="center" fontSize=".8vw" width="17vw" mt=".8vh" fontFamily="Poppins" color="#5E5E5E">Capture your face and upload
+                     it to our database for efficient authentication</Text>
                 </Flex>
             </Flex>
         </Flex>
