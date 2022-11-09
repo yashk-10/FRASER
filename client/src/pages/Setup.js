@@ -1,12 +1,15 @@
 import React, {useRef, useEffect, useState} from 'react'
+import SetupBackground from '../assets/setupBackground.png'
+import FaceTemplate from '../assets/faceTemplate.png'
 import { Flex, Heading, Text, Input,
          Button, Image , Popover, PopoverTrigger,
           PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader,
-        PopoverBody, } from '@chakra-ui/react'
+        PopoverBody, Portal, Box, PopoverFooter } from '@chakra-ui/react'
 
 const Setup = () => {
     const cameraRef = useRef(null);
     const imageRef = useRef(null);
+    const initRef = useRef(null);
 
     const [button, setButton] = useState("Capture")
     // const [display, setDisplay] = useState("block")
@@ -33,15 +36,16 @@ const Setup = () => {
         let camera = cameraRef.current;
         let image = imageRef.current;
 
-
-        // image.width = 465;
-        // image.height = 564;
-        image.width = 300
+        image.width = 295
         image.height = 375
 
         let ctx = image.getContext('2d')
-        ctx.drawImage(camera, 0, 0, 300, 375);
+        ctx.drawImage(camera, 0, 0, 295, 375);
         setButton("Submit")
+    }
+
+    const close = () => {
+        setButton("Capture")
     }
 
 
@@ -50,31 +54,100 @@ const Setup = () => {
     }, [cameraRef])
 
     return (
-        <Flex height="100vh" alignItems="center" justifyContent="center" background="#BFCAD4">
-        <Flex height="39.6vw"  display="flex" direction="row" background="#ACBCCB" borderRadius="10px">
-            
-            <Flex width="80vw" m="3vw"  justifyContent="center">
-                <video ref={cameraRef} ></video>
-                <Popover >
+        <Flex height="100vh" display="flex" alignItems="center" justifyContent="center" background="#BFCAD4">
+            <Flex height="80vh" display="flex" direction="row" background="#ACBCCB" borderRadius="10px" >
+                {/* <Flex height="30%" width="30%" mt="18%" ml="5%" display="flex" direction="column" justifyContent="center" alignItems="center">
+                    <Text textAlign="center" fontSize="2vw" fontFamily="Poppins" fontWeight="bold">Set Up</Text>
+                    <Text textAlign="center" fontSize="1.2vw" fontFamily="Poppins">Capture your face and upload
+                     it to our database for efficient authentication</Text>
+                </Flex> */}
+            <Flex height="80vh" width="80vw" display="flex" justifyContent="center" direction="column" alignItems="center">
+                <Image src={SetupBackground} position="absolute" height="80vh" zIndex="0"/>
+                <Flex height="55vh" borderRadius="5" overflow="hidden" zIndex="2" >
+                    <video ref={cameraRef}></video>
+                </Flex>
+                <Image mb="5vh" src={FaceTemplate} position="absolute" height="50vh" zIndex="3"/>
+             <Popover closeOnBlur={false} placement='top' initialFocusRef={initRef}>
+                 {({ isOpen, onClose }) => (
+                     <>
+                     <PopoverTrigger placement='top'>
+                        <Button  pl="6vw" pr="6vw" mt="1vh" height="6vh"  background="#85B9DF" borderRadius="5" onClick={()=> captureImage()}>{isOpen ? 'Cancel' : 'Capture'}</Button>
+                        {/* <button height="2vw" width="5vw" background="#85B9DF" borderRadius="7" onClick={()=> captureImage()}>{isOpen ? 'Cancel' : 'Capture'}</button> */}
+                     </PopoverTrigger>
+                     <Portal>
+                         <PopoverContent>
+                         <PopoverHeader>Success!</PopoverHeader>
+                         <PopoverCloseButton/>
+                         <PopoverBody>
+                             <Box>Would you like to submit this image?</Box>
+                             <canvas ref={imageRef}/>
+                             <Button
+                             mt={4}
+                             colorScheme='blue'
+                             onClick={onClose}
+                             ref={initRef}
+                             >
+                             Submit
+                             </Button>
+                         </PopoverBody>
+                         </PopoverContent>
+                     </Portal>
+                     </>
+                 )}
+                 </Popover>
+                </Flex>
+                <Flex>
+
+                </Flex>
+            </Flex>
+        </Flex>
+        // <Flex height="100vh" alignItems="center" justifyContent="center" background="#BFCAD4">
+        // <Flex display="flex" direction="row" background="#ACBCCB" borderRadius="10px">
+        //     <Flex display="flex" m="20vw" justifyContent="center" direction="column">
+        //         <video ref={cameraRef}></video>
+        //         <Popover closeOnBlur={false} placement='top' initialFocusRef={initRef}>
+        //         {({ isOpen, onClose }) => (
+        //             <>
+        //             <PopoverTrigger placement='top'>
+        //                 <Button onClick={(captureImage())}>{isOpen ? 'Cancel' : 'Capture'}</Button>
+        //             </PopoverTrigger>
+        //             <Portal>
+        //                 <PopoverContent>
+        //                 <PopoverHeader>Success!</PopoverHeader>
+        //                 <PopoverCloseButton/>
+        //                 <PopoverBody>
+        //                     <Box>Would you like to submit this image?</Box>
+        //                     <canvas ref={imageRef}/>
+        //                     <Button
+        //                     mt={4}
+        //                     colorScheme='blue'
+        //                     onClick={onClose}
+        //                     ref={initRef}
+        //                     >
+        //                     Submit
+        //                     </Button>
+        //                 </PopoverBody>
+        //                 </PopoverContent>
+        //             </Portal>
+        //             </>
+        //         )}
+        //         </Popover>
+
+
+                /* <Popover>
                 <PopoverTrigger>
-                    <Button onClick={captureImage}>{button}</Button>
+                    <Button m={3} background="#85B9DF" size="lg" height="100vw" onClick={captureImage}>{button}</Button>
                 </PopoverTrigger>
                 <PopoverContent>
                     <PopoverArrow />
-                    <PopoverCloseButton />
+                    <PopoverCloseButton onClick={close}/>
                     <PopoverHeader>Success!</PopoverHeader>
                     <PopoverBody >
                         <canvas ref={imageRef}/>
-                        <Button>Submit</Button>
                     </PopoverBody>
                 </PopoverContent>
-                </Popover>
-                {/* <Button onClick={captureImage}>{button}</Button> */}
-            </Flex>
-            {/* <canvas style={{display2: display2}} ref={imageRef}/> */}
+                </Popover> */
             
-        </Flex>
-        </Flex>
     )
 }
 
