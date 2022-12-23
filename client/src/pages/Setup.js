@@ -1,4 +1,6 @@
 import React, {useRef, useEffect, useState} from 'react'
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import SetupBackground from '../assets/setupBackground.png'
 import FaceTemplate from '../assets/faceTemplate.png'
 import { Flex, Heading, Text, Input,
@@ -7,14 +9,11 @@ import { Flex, Heading, Text, Input,
         PopoverBody, Portal, Box, PopoverFooter } from '@chakra-ui/react'
 
 const Setup = () => {
+    const location = useLocation();
     const cameraRef = useRef(null);
     const imageRef = useRef(null);
     const initRef = useRef(null);
-
-    const [button, setButton] = useState("Capture")
-    // const [display, setDisplay] = useState("block")
-    // const [display2, setDisplay2] = useState("none")
-    // const [photoExists, setPhotoExists] = useState(false);
+    const image = "ncioweniocnwoienxiowe";
 
     const startVideo = () => {
         navigator.mediaDevices
@@ -41,17 +40,23 @@ const Setup = () => {
 
         let ctx = image.getContext('2d')
         ctx.drawImage(camera, 0, 0, 295, 375);
-        setButton("Submit")
     }
-
-    const close = () => {
-        setButton("Capture")
-    }
-
 
     useEffect(() => {
         startVideo();
     }, [cameraRef])
+
+    const body = {
+        username: location.state.username,
+        email: location.state.email, 
+        password: location.state.password,
+        image: image
+    }
+
+    const addUser = async () => {
+        axios.post('http://localhost:6001/users/add', body)
+        .then(res => console.log(res.data));
+    }
 
     return (
         <Flex height="100vh" display="flex" alignItems="center" justifyContent="center" background="#BFCAD4">
@@ -71,24 +76,17 @@ const Setup = () => {
                  {({ isOpen, onClose }) => (
                      <>
                      <PopoverTrigger placement='top'>
-                        <Button  pl="6vw" pr="6vw" mt="1vh" height="6vh"  background="#85B9DF" borderRadius="5" onClick={()=> captureImage()}>{isOpen ? 'Cancel' : 'Capture'}</Button>
+                        <Button  pl="6vw" pr="6vw" mt="1vh" height="6vh" background="#85B9DF" borderRadius="5" onClick={()=> captureImage()}>{isOpen ? 'Cancel' : 'Capture'}</Button>
                         {/* <button height="2vw" width="5vw" background="#85B9DF" borderRadius="7" onClick={()=> captureImage()}>{isOpen ? 'Cancel' : 'Capture'}</button> */}
                      </PopoverTrigger>
-                     <Portal>
-                         <PopoverContent>
-                         <PopoverHeader>Success!</PopoverHeader>
-                         <PopoverCloseButton/>
-                         <PopoverBody>
-                             <Box>Would you like to submit this image?</Box>
+                     <Portal >
+                         <PopoverContent background="#184874">
+                         <PopoverHeader color="white">Success!</PopoverHeader>
+                         <PopoverCloseButton color="white"/>
+                         <PopoverBody display="flex" alignItems="center" flexDirection="column">
+                             <Box color="white" mb={2}>Would you like to submit this image?</Box>
                              <canvas ref={imageRef}/>
-                             <Button
-                             mt={4}
-                             colorScheme='blue'
-                             onClick={onClose}
-                             ref={initRef}
-                             >
-                             Submit
-                             </Button>
+                             <Button mb={2} mt={3} background= "#85B9DF" onClick={() => addUser()} ref={initRef}>Submit</Button>
                          </PopoverBody>
                          </PopoverContent>
                      </Portal>

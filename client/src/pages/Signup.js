@@ -1,9 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Flex, Heading, Text, Input, Button, Image } from '@chakra-ui/react'
 import Logo from '../assets/logo.png'
 import SignupImage from '../assets/signupImage.png'
+import Setup from './Setup';
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const setup = () => {
+    navigate('/setup', { state: {
+      username: username,
+      email: email, 
+      password: password
+    }})
+  }
+
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center" background="#BFCAD4">
       <Flex height="39.6vw"  display="flex" direction="row" background="#ACBCCB" borderRadius="10px">
@@ -21,16 +36,16 @@ const Signup = () => {
           <Image src={Logo} alt="Logo" opacity={1.5} height="5vw"/>
           <Text mb=".5vw" textAlign="center" fontSize="2.8vw" >Sign Up</Text>
           <Text mb="1vw" width="25vw" fontSize="1vw" textAlign="center" color="#5E5E5E">Create your account and get started with FRASER.</Text>
-          <Input height="3.3vw" width="25vw" placeholder="Username" variant="filled" mb="1vw" type="text" border="1px solid" fontSize="1.1vw"/>
+          <Input value={username} onChange={(e) => setUsername(e.target.value)} height="3.3vw" width="25vw" placeholder="Username" variant="filled" mb="1vw" type="text" border="1px solid" fontSize="1.1vw"/>
           <Flex direction="row" gap="1vw">
-            <Input height="3.3vw" width="12vw" placeholder="Email" variant="filled" mb="1vw" type="email" border="1px solid" fontSize="1vw" />
+            <Input value={email} onChange={(e) => setEmail(e.target.value)} height="3.3vw" width="12vw" placeholder="Email" variant="filled" mb="1vw" type="email" border="1px solid" fontSize="1vw" />
             <Input height="3.3vw" width="12vw" placeholder="Confirm Email" variant="filled" mb="1vw" type="email" border="1px solid" fontSize="1vw" />
           </Flex>
           <Flex direction="row" gap="1vw">
-            <Input height="3.3vw" width="12vw" placeholder="Password" variant="filled" mb="1vw" type="password" border="1px solid" fontSize="1vw" />
+            <Input height="3.3vw" width="12vw" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" variant="filled" mb="1vw" type="password" border="1px solid" fontSize="1vw" />
             <Input height="3.3vw" width="12vw" placeholder="Confirm Password" variant="filled" mb="1vw" type="password" border="1px solid" fontSize="1vw" />
           </Flex>
-          <Button height="3.3vw" width="25vw" background="#184874" color="white" fontSize="1.1vw">Continue</Button>
+            <Button height="3.3vw" width="25vw" background="#184874" color="white" fontSize="1.1vw" onClick={() => setup()}>Continue</Button>
         </Flex>
 
       </Flex>
