@@ -13,7 +13,7 @@ const Setup = () => {
     const cameraRef = useRef(null);
     const imageRef = useRef(null);
     const initRef = useRef(null);
-    const image = "ncioweniocnwoienxiowe";
+    const [image, setImage] = useState("")
 
     const startVideo = () => {
         navigator.mediaDevices
@@ -31,7 +31,6 @@ const Setup = () => {
     }
 
     const captureImage = () => {
-        // setPhotoExists(true)
         let camera = cameraRef.current;
         let image = imageRef.current;
 
@@ -40,6 +39,10 @@ const Setup = () => {
 
         let ctx = image.getContext('2d')
         ctx.drawImage(camera, 0, 0, 295, 375);
+        const dataURL = image.toDataURL('image/jpeg')
+        setImage(dataURL)
+
+        console.log(dataURL);
     }
 
     useEffect(() => {
@@ -54,6 +57,9 @@ const Setup = () => {
     }
 
     const addUser = async () => {
+        
+
+
         axios.post('http://localhost:6001/users/add', body)
         .then(res => console.log(res.data));
     }
