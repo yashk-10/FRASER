@@ -57,9 +57,6 @@ const Setup = () => {
     }
 
     const addUser = async () => {
-        
-
-
         axios.post('http://localhost:6001/users/add', body)
         .then(res => console.log(res.data));
     }
