@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Flex, Heading, Text, Input, Button, Image } from '@chakra-ui/react'
 import Logo from '../assets/logo.png'
 import LoginImage from '../assets/loginImage.png'
 import axios from 'axios'
 
 const Login = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
@@ -16,7 +17,11 @@ const Login = () => {
 
   const loginUser = async () => {
     axios.post('http://localhost:6001/users/login', body)
-    .then(res => console.log(res.data));
+    .then((res) => {
+      navigate('/auth', { state: {
+        token: res.data
+      }})
+    });
 }
 
 

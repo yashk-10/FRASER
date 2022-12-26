@@ -37,14 +37,30 @@ router.route('/login').post( async (req, res) => {
         return res.json('Incorrect Password')
     }
     else{
-        const token = jwt.sign({}, "togealyhFx4s20B3")
+        const token = jwt.sign({
+            username: username,
+            image: user.image
+        }, "togealyhFx4s20B3")
         if (res.status(201)){
-            return res.json({ status: "ok", data: token})
+            return res.json(token)
         }
         else{
-            return res.json({ status: "error", data: token})
+            return res.json("Error")
         }
     }
 });
+
+router.route('/getData').post( async (req, res) => {
+    const token = req.body.token;
+    const user = jwt.verify(token, "togealyhFx4s20B3")
+    User.findOne({ username: user.username })
+    .then((data) => {
+        res.send({ status: "ok", data: data });
+    })
+    .catch((error) => {
+        res.send({ status: "error", data: error});
+    });
+});
+
 
 module.exports = router;
