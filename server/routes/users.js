@@ -2,11 +2,16 @@ const jwt = require('jsonwebtoken');
 const router = require('express').Router();
 let User = require('../models/user.data');
 
-// router.route('/').get((req, res) => {
-//     User.find()
-//     .then(users => res.json(users))
-//     .catch(err => res.status(400).json('Error: ' + err));
-// });
+router.route('/checkUser').post(async (req, res) => {
+    const username = req.body.username;
+    const user = await User.findOne({ username })
+    if (user) {
+        res.send("error")
+    }
+    else {
+        res.send("unique")
+    }
+})
 
 router.route('/add').post((req, res) => {
     const username = req.body.username;
@@ -30,25 +35,17 @@ router.route('/login').post( async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const user = await User.findOne({ username })
-    if (!user){
-        return res.json('User Not Found!')
-    }
-    else if (password != user.password){
-        return res.json('Incorrect Password')
-    }
-    else{
+    if ((!user) || (password != user.password)){
+        res.send("error")
+    }else{
         const token = jwt.sign({
             username: username,
             image: user.image
         }, "togealyhFx4s20B3")
-        if (res.status(201)){
-            return res.json(token)
-        }
-        else{
-            return res.json("Error")
-        }
+        return res.json(token)
     }
 });
+
 
 router.route('/getData').post( async (req, res) => {
     const token = req.body.token;

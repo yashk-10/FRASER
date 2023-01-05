@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Flex, Heading, Text, Input, Button, Image } from '@chakra-ui/react'
+import { Flex, Heading, Text, Input, Button, Image, Alert, AlertIcon, AlertDescription, AlertTitle } from '@chakra-ui/react'
 import Logo from '../assets/logo.png'
 import LoginImage from '../assets/loginImage.png'
 import axios from 'axios'
@@ -9,18 +9,29 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-
-  const body = {
-    username: username,
-    password: password
-}
+  const successRef = useRef(null);
+  const errorRef = useRef(null);
 
   const loginUser = async () => {
+    errorRef.current.style.display = "none"
+    const body = {
+      username: username,
+      password: password
+    }
+
     axios.post('http://localhost:6001/users/login', body)
     .then((res) => {
-      navigate('/auth', { state: {
-        token: res.data
-      }})
+      if (res.data == "error"){
+        errorRef.current.style.display = "block"
+      }
+      else {
+        successRef.current.style.display = "block";
+        setTimeout(() => {
+          navigate('/auth', { state: {
+            token: res.data
+          }})
+        }, 1000)
+      }
     });
 }
 
@@ -28,7 +39,8 @@ const Login = () => {
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center" background="#DADFE2">
       <Flex height="39.6vw"  display="flex" direction="row" background="#C2D3DD" borderRadius="10px">
-        
+
+        {/* Action */}
         <Flex fontFamily="Poppins" pt="6.5vw" pl="4vw" pr="4vw" direction="column" alignItems="center">
           <Image src={Logo} alt="Logo" opacity={1.5} height="5vw"/>
           <Text mb=".5vw" textAlign="center" fontSize="2.8vw" >Welcome Back</Text>
@@ -38,6 +50,7 @@ const Login = () => {
           <Button onClick={() => loginUser()} height="3.3vw" width="25vw" background="#184874" color="white" fontSize="1.1vw">Continue</Button>
         </Flex>
 
+        {/* Information */}
         <Flex alignItems="right" justifyContent="right">
           <Image src={LoginImage} alt="Login Image" height="39.6vw"/>
           <Button height="2.5vw" position="absolute" _hover="none" background="#939393" color="white" fontSize="1vw" cursor="default" mr="7.6vw" mt="7.8vw" >FRASER</Button>
@@ -48,6 +61,28 @@ const Login = () => {
         </Flex>
 
       </Flex>
+
+      {/* Success Alert */}
+      <Alert ref={successRef} status='success' display="none" position="absolute" width="20vw" top="2vh" right="2vw" borderRadius={10}>
+          <Flex display="flex" direction="row">
+            <AlertIcon />
+            <AlertTitle fontSize="1.4vw">
+              Login Successful!
+            </AlertTitle>
+          </Flex>
+      </Alert>
+
+      {/* Error Alert */}
+      <Alert ref={errorRef} status='error' display="none" position="absolute" width="20vw" top="2vh" right="2vw" borderRadius={10}>
+        <Flex display="flex" direction="row">
+          <AlertIcon />
+          <AlertTitle fontSize="1.4vw">Login Failed!</AlertTitle>
+        </Flex>
+          <AlertDescription fontSize="1.2vw">
+            Please ensure that your username and password are correct!
+          </AlertDescription>
+      </Alert>
+
     </Flex>
   )
 }
