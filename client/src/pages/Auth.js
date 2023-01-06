@@ -25,7 +25,7 @@ const Auth = () => {
         token: location.state.token
     }
     // Fetch user facial recognition data
-    axios.post('http://localhost:6001/users/getData', body)
+    axios.post('https://fraser-project.onrender.com/users/getData', body)
         .then((res) => {
             setUsername(res.data.data.username)
             image.src = res.data.data.image

@@ -19,7 +19,7 @@ const Login = () => {
       password: password
     }
 
-    axios.post('http://localhost:6001/users/login', body)
+    axios.post('https://fraser-project.onrender.com/users/login', body)
     .then((res) => {
       if (res.data == "error"){
         errorRef.current.style.display = "block"

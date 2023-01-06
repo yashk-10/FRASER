@@ -26,7 +26,7 @@ const Signup = () => {
       }
   
     // Checking if user exists
-    axios.post('http://localhost:6001/users/checkUser', body)
+    axios.post('https://fraser-project.onrender.com/users/checkUser', body)
         .then((res) => {
             if (res.data == "error"){
               errorRef.current.style.display = "block";

@@ -69,7 +69,7 @@ const Setup = () => {
                 }
 
                 // Saving the user in the database
-                axios.post('http://localhost:6001/users/add', body)
+                axios.post('https://fraser-project.onrender.com/users/add', body)
                 .then(res => console.log(res.data));
             
                 successRef.current.style.display = "block";
