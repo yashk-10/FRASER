@@ -7,7 +7,6 @@ const userSchema = new Schema({
         required: true,
         unique: true,
         trim: true,
-        // minlength: 8
     },
     email: {
         type: String, 
@@ -16,7 +15,6 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-        // minlength: 8
     },
     image: {
         type: String,
