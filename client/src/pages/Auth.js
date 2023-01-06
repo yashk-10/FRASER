@@ -24,8 +24,9 @@ const Auth = () => {
     const body = {
         token: location.state.token
     }
+    
     // Fetch user facial recognition data
-    axios.post('https://fraser-project.onrender.com/users/getData', body)
+    axios.post('https://fraser-project-api.onrender.com/users/getData', body)
         .then((res) => {
             setUsername(res.data.data.username)
             image.src = res.data.data.image
@@ -95,34 +96,6 @@ const Auth = () => {
         }, 10000)
     }
 
-    // const test = async () => {
-    //     // const referenceImage = await faceapi.detectSingleFace(image, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor()
-    //     // const labeledDescriptor = new faceapi.LabeledFaceDescriptors(username, [referenceImage.descriptor])
-    //     // const faceMatcher = new faceapi.FaceMatcher(labeledDescriptor)
-    //     // const cameraImage = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor()
-    //     // const match = faceMatcher.findBestMatch(cameraImage.descriptor)
-    //     // console.log(match)
-    //     // const match = new faceapi.FaceMatcher().findBestMatch()
-
-    //     const displaySize = { width: videoRef.current.clientWidth, height: videoRef.current.clientHeight }
-    //     canvasRef.current.innerHTML = faceapi.createCanvasFromMedia(videoRef.current);
-    //     faceapi.matchDimensions(canvasRef.current, displaySize);
-    //     const referenceImage = await faceapi.detectSingleFace(image, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor()
-    //     const labeledDescriptor = new faceapi.LabeledFaceDescriptors(username, [referenceImage.descriptor])
-    //     const faceMatcher = new faceapi.FaceMatcher(labeledDescriptor)
-    //     canvasRef.current.getContext('2d').clearRect(0, 0, width, height);
-    //     const recognition = await faceapi.detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor()
-    //     if (recognition != undefined){
-    //         console.log("it worked")
-    //     }
-    //     const resizedRecognition = faceapi.resizeResults(recognition, displaySize);
-    //     const match = faceMatcher.findBestMatch(recognition.descriptor)
-    //     console.log(match)
-    //     const box = resizedRecognition.detection.box
-    //     const drawBox = new faceapi.draw.DrawBox(box, { label: match.label})
-    //     drawBox.draw(canvasRef.current)
-    // }
-
     useEffect(() => {
         startVideo();
         videoRef && loadModels();
@@ -138,16 +111,28 @@ const Auth = () => {
                 </Flex>
                 <Button mt="1.2vh" width="23vw" height="6vh" onClick={() => detectFace()} background="#184874" color="white">Authenticate</Button>
             </Flex>
-            <Alert ref={successRef} status='success' display="none" position="absolute" width="20vw" top="2vh" right="2vw" borderRadius={10} fontSize="1.2vw">
-                <AlertIcon />
-                Authentication Sucessful!
-                <Button isLoading colorScheme=""/>
-            </Alert>
-            {/* <button onClick={() => test()}>Test</button> */}
 
-            <Alert ref={errorRef} status='error' display="none" position="absolute" width="20vw" top="2vh" right="2vw" borderRadius={10} fontSize="1.2vw">
-                <AlertIcon />
-                Authentication Failed!<br></br>Please retry.
+            {/* Success Alert */}
+            <Alert ref={successRef} status='success' display="none" position="absolute" width="20vw" top="2vh" right="2vw" borderRadius={10}>
+                <Flex display="flex" direction="row">
+                    <AlertIcon />
+                    <AlertTitle fontSize="1.4vw">
+                        Authentication Successful!
+                    </AlertTitle>
+                </Flex>
+            </Alert>
+
+            {/* Error Alert */}
+            <Alert ref={errorRef} status='error' display="none" position="absolute" width="22vw" top="2vh" right="2vw" borderRadius={10} fontSize="1.2vw">
+                <Flex display="flex" direction="row">
+                    <AlertIcon />
+                    <AlertTitle fontSize="1.4vw">
+                        Authentication Failed!
+                    </AlertTitle>
+                </Flex>
+                <AlertDescription fontSize="1.2vw">
+                    Please retry...
+                </AlertDescription>
             </Alert>
         </Flex>     
     )
